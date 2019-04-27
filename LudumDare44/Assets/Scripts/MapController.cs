@@ -34,13 +34,21 @@ public class MapController : MonoBehaviour
             examinePos += movementInt;
         }
 
+        PushObjectsOnPath(origin, movementInt, examinePos);
+        return true;
+    }
+
+    void PushObjectsOnPath(Vector3Int origin, Vector3Int movementInt, Vector3Int destination)
+    {
+        Vector3Int examinePos = destination;
         TileBase destinationTile = tilemap.GetTile(examinePos);
         if (destinationTile != null && destinationTile.name == "Hole")
         {
             examinePos -= movementInt;
-            tilemap.SetTile(examinePos, null);
-            if (bloodOnPath)
+            TileBase lastPushedTile = tilemap.GetTile(examinePos);
+            if (lastPushedTile != null && lastPushedTile.name == "Blood")
             {
+                tilemap.SetTile(examinePos, null);
                 if (counter.Decrement() == 0)
                 {
                     // WIN Level
@@ -58,6 +66,5 @@ public class MapController : MonoBehaviour
         }
 
         tilemap.SetTile(origin + movementInt, null);
-        return true;
     }
 }
