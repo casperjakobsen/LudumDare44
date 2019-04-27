@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public enum ButtonType
 {
-    Play, Exit
+    Play, Exit, Restart, Back
 }
 
 public class TileButton : MonoBehaviour
@@ -42,6 +42,12 @@ public class TileButton : MonoBehaviour
                 break;
             case ButtonType.Exit:
                 Application.Quit();
+                break;
+            case ButtonType.Restart:
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                break;
+            case ButtonType.Back:
+                SceneManager.LoadScene(0);
                 break;
         }
     }
