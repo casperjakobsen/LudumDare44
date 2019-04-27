@@ -93,3 +93,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 0}
+  tilemapVisualTop: {fileID: 0}
+  tilemapVisualBottom: {fileID: 0}
+  bloodTile: {fileID: 11400000, guid: 78216ca27e5985f4283243ba298e6735, type: 2}
+  bloodTileTop: {fileID: 11400000, guid: fcc7a40b8c822624eb7ff6163670f950, type: 2}
+  bloodTileBottom: {fileID: 11400000, guid: e1aef2e79b009824cbb0828385a089de, type: 2}
