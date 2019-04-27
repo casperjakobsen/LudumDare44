@@ -6,6 +6,10 @@ using UnityEngine.Tilemaps;
 public class Player : MonoBehaviour
 {
     [SerializeField] TileBase bloodTile;
+    [SerializeField] GameObject bleedTopObj;
+    [SerializeField] GameObject bleedRightObj;
+    [SerializeField] GameObject bleedBottomObj;
+    [SerializeField] GameObject bleedLeftObj;
     bool bleedTop;
     bool bleedRight;
     bool bleedBottom;
@@ -18,6 +22,11 @@ public class Player : MonoBehaviour
     {
         mapController = GameObject.FindGameObjectWithTag("GameController").GetComponent<MapController>();
         tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
+
+        bleedTopObj.SetActive(false);
+        bleedRightObj.SetActive(false);
+        bleedBottomObj.SetActive(false);
+        bleedLeftObj.SetActive(false);
     }
 
     void Update()
@@ -53,7 +62,7 @@ public class Player : MonoBehaviour
             transform.position += Vector3.Scale(tilemap.cellSize, movement);
             Bleed(originCellPos, movementInt);
         }
-        else if (TileUtility.IsSpike(destinationTile))
+        else if (TileUtility.CheckIfSpiked(destinationTile, movementInt))
         {
             HitSpike(movementInt);
         }
@@ -66,6 +75,12 @@ public class Player : MonoBehaviour
         bleedRight = bleedRight || (movementInt == Vector3Int.right);
         bleedBottom = bleedBottom || (movementInt == Vector3Int.down);
         bleedLeft = bleedLeft || (movementInt == Vector3Int.left);
+
+        bleedTopObj.SetActive(bleedTop);
+        bleedRightObj.SetActive(bleedRight);
+        bleedBottomObj.SetActive(bleedBottom);
+        bleedLeftObj.SetActive(bleedLeft);
+
     }
 
     void Bleed(Vector3Int position, Vector3Int movementInt)
