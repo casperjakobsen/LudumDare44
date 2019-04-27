@@ -5,16 +5,18 @@ using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] Tilemap tilemap;
-
     [SerializeField] TileBase bloodTile;
     bool bleedTop;
     bool bleedRight;
     bool bleedBottom;
     bool bleedLeft;
 
+    MapController mapController;
+    Tilemap tilemap;
+
     void Start()
     {
+        mapController = GameObject.FindGameObjectWithTag("GameController").GetComponent<MapController>();
         tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
     }
 
@@ -46,7 +48,7 @@ public class Player : MonoBehaviour
         Vector3Int originCellPos = tilemap.WorldToCell(transform.position);
         Vector3Int movementInt = Vector3Int.RoundToInt(movement);
         TileBase destinationTile = tilemap.GetTile(originCellPos + movementInt);
-        if (destinationTile == null)
+        if (mapController.Move(originCellPos, movementInt))
         {
             transform.position += Vector3.Scale(tilemap.cellSize, movement);
             Bleed(originCellPos, movementInt);
