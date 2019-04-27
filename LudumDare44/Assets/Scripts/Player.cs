@@ -6,17 +6,17 @@ using UnityEngine.Tilemaps;
 public class Player : MonoBehaviour
 {
     [SerializeField] Tilemap tilemap;
-    [SerializeField] Tilemap tilemapVisualTop;
-    [SerializeField] Tilemap tilemapVisualBottom;
 
     [SerializeField] TileBase bloodTile;
-    [SerializeField] TileBase bloodTileTop;
-    [SerializeField] TileBase bloodTileBottom;
-
     bool bleedTop;
     bool bleedRight;
     bool bleedBottom;
     bool bleedLeft;
+
+    void Start()
+    {
+        tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
+    }
 
     void Update()
     {
@@ -73,10 +73,9 @@ public class Player : MonoBehaviour
         doBleed = doBleed || (bleedRight && (movementInt == Vector3Int.left));
         doBleed = doBleed || (bleedBottom && (movementInt == Vector3Int.up));
         doBleed = doBleed || (bleedLeft && (movementInt == Vector3Int.right));
+
         if (!doBleed) return;
 
         tilemap.SetTile(position, bloodTile);
-        tilemapVisualTop.SetTile(position, bloodTileTop);
-        tilemapVisualBottom.SetTile(position, bloodTileBottom);
     }
 }
