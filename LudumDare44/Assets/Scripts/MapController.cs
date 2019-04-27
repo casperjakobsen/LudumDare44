@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class MapController : MonoBehaviour
 {
@@ -52,7 +53,7 @@ public class MapController : MonoBehaviour
                 if (counter.Decrement() == 0)
                 {
                     // WIN Level
-                    print("WIN");
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 }
             }
         }
