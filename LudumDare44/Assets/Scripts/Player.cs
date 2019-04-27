@@ -7,31 +7,29 @@ public class Player : MonoBehaviour
 {
     [SerializeField] Tilemap tilemap;
 
-    // Update is called once per frame
     void Update()
     {
-        Vector3Int movement = Vector3Int.zero;
+        Vector3 movement = Vector3.zero;
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            movement = Vector3Int.up;
+            movement = Vector3.up;
         }
         else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            movement = Vector3Int.right;
+            movement = Vector3.right;
         }
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            movement = Vector3Int.down;
+            movement = Vector3.down;
         }
         else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            movement = Vector3Int.left;
+            movement = Vector3.left;
         }
-
-        Vector3Int currentPos = tilemap.WorldToCell(transform.position);
-        if (tilemap.GetTile(currentPos + movement) == null)
+        Vector3Int currentCellPos = tilemap.WorldToCell(transform.position);
+        if (tilemap.GetTile(currentCellPos + Vector3Int.RoundToInt(movement)) == null)
         {
-            transform.position += movement;
+            transform.position += Vector3.Scale(tilemap.cellSize, movement);
         }
     }
 }
