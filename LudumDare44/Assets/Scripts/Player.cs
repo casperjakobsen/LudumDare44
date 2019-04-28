@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class Player : MonoBehaviour
 
     MapController mapController;
     Tilemap tilemap;
+
+    [SerializeField] UnityEvent moveEvent;
+    [SerializeField] UnityEvent hurtEvent;
 
     void Start()
     {
@@ -57,13 +61,16 @@ public class Player : MonoBehaviour
         Vector3Int originCellPos = tilemap.WorldToCell(transform.position);
         Vector3Int movementInt = Vector3Int.RoundToInt(movement);
         TileBase destinationTile = tilemap.GetTile(originCellPos + movementInt);
+
         if (mapController.Move(originCellPos, movementInt))
         {
+            moveEvent.Invoke();
             transform.position += Vector3.Scale(tilemap.cellSize, movement);
             Bleed(originCellPos, movementInt);
         }
         else if (TileUtility.CheckIfSpiked(destinationTile, movementInt))
         {
+            hurtEvent.Invoke();
             HitSpike(movementInt);
         }
 

@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class MapController : MonoBehaviour
 {
     Tilemap tilemap;
 
     [SerializeField] Counter counter;
+
+    [SerializeField] UnityEvent payEvent;
+    [SerializeField] UnityEvent winEvent;
 
     void Start()
     {
@@ -50,8 +54,10 @@ public class MapController : MonoBehaviour
             if (lastPushedTile != null && lastPushedTile.name == "Blood")
             {
                 tilemap.SetTile(examinePos, null);
+                payEvent.Invoke();
                 if (counter.Decrement() == 0)
                 {
+                    winEvent.Invoke();
                     // WIN Level
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 }

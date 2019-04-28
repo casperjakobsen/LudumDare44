@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 
 public enum ButtonType
@@ -16,6 +17,9 @@ public class TileButton : MonoBehaviour
     [SerializeField] Sprite downSprite;
     [SerializeField] ButtonType type;
 
+    [SerializeField] UnityEvent hoverEvent;
+    [SerializeField] UnityEvent clickedEvent;
+
     SpriteRenderer spriteRenderer;
     void Awake()
     {
@@ -24,6 +28,7 @@ public class TileButton : MonoBehaviour
 
     void OnMouseEnter()
     {
+        hoverEvent.Invoke();
         spriteRenderer.sprite = hoverSprite;
     }
 
@@ -34,6 +39,7 @@ public class TileButton : MonoBehaviour
 
     private void OnMouseDown()
     {
+        clickedEvent.Invoke();
         spriteRenderer.sprite = downSprite;
         switch (type)
         {
