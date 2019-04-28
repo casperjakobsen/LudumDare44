@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
   
             moveEvent.Invoke();
             transform.position += Vector3.Scale(tilemap.cellSize, movement);
-            Bleed(originCellPos, movementInt);
+            Bleed();
         }
         else if (canSpike && TileUtility.CheckIfSpiked(destinationTile, movementInt))
         {
@@ -107,16 +107,13 @@ public class Player : MonoBehaviour
 
     }
 
-    void Bleed(Vector3Int position, Vector3Int movementInt)
+    void Bleed()
     {
-        bool doBleed = false;
-        doBleed = doBleed || (bleedTop && (movementInt == Vector3Int.down));
-        doBleed = doBleed || (bleedRight && (movementInt == Vector3Int.left));
-        doBleed = doBleed || (bleedBottom && (movementInt == Vector3Int.up));
-        doBleed = doBleed || (bleedLeft && (movementInt == Vector3Int.right));
+        Vector3Int position = tilemap.WorldToCell(transform.position);
 
-        if (!doBleed) return;
-
-        mapController.AddBlood(position);
+        if (bleedTop) {mapController.TryAddBlood(position + Vector3Int.up);}
+        if (bleedRight) {mapController.TryAddBlood(position + Vector3Int.right);}
+        if (bleedBottom) {mapController.TryAddBlood(position + Vector3Int.down);}
+        if (bleedLeft) {mapController.TryAddBlood(position + Vector3Int.left);}
     }
 }

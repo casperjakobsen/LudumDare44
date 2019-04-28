@@ -98,8 +98,10 @@ public class MapController : MonoBehaviour
         tilemap.SetTile(origin + movementInt, null);
     }
 
-    public void AddBlood(Vector3Int position)
+    public void TryAddBlood(Vector3Int position)
     {
+        if (tilemap.GetTile(position) != null) return;
+
         tilemap.SetTile(position, bloodTileEntry);
         tileSwapper.addTileSwap(bloodTile, Time.time + tileAnimationTime, position);
     }
