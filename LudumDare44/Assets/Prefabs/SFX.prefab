@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3865916898390578456}
   - component: {fileID: 5990272764899005519}
+  - component: {fileID: 8473541736441106274}
   m_Layer: 0
   m_Name: SFX
   m_TagString: SFX
@@ -44,3 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSourceCount: 16
+--- !u!114 &8473541736441106274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228892318447034105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00f21b7f232783a42a6bdef8ab269290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: SFX

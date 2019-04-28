@@ -6,27 +6,16 @@ public class SFX : MonoBehaviour
 {
     [SerializeField] private int audioSourceCount = 10;
 
-    public static bool instantiated;
     Queue<AudioSource> audioSources = new Queue<AudioSource>();
     void Awake()
     {
-        if (instantiated)
+        for (int i=0; i<audioSourceCount; i++)
         {
-            Destroy(gameObject);
-        }
-        else
-        {
-            for (int i=0; i<audioSourceCount; i++)
-            {
-                GameObject obj = new GameObject();
-                obj.transform.parent = transform;
-                obj.name = "AudioObj";
-                obj.AddComponent<AudioSource>();
-                audioSources.Enqueue(obj.GetComponent<AudioSource>());
-            }
-
-            DontDestroyOnLoad(gameObject);
-            instantiated = true;
+            GameObject obj = new GameObject();
+            obj.transform.parent = transform;
+            obj.name = "AudioObj";
+            obj.AddComponent<AudioSource>();
+            audioSources.Enqueue(obj.GetComponent<AudioSource>());
         }
     }
 

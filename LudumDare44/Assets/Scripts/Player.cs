@@ -6,7 +6,6 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] TileBase bloodTile;
     [SerializeField] GameObject bleedTopObj;
     [SerializeField] GameObject bleedRightObj;
     [SerializeField] GameObject bleedBottomObj;
@@ -89,7 +88,7 @@ public class Player : MonoBehaviour
 
             hurtEvent.Invoke();
             HitSpike(movementInt);
-            mapController.ApplyBlood(Vector3Int.RoundToInt(originCellPos + movementInt));
+            mapController.ApplyBloodToSpike(Vector3Int.RoundToInt(originCellPos + movementInt));
         }
 
     }
@@ -118,6 +117,6 @@ public class Player : MonoBehaviour
 
         if (!doBleed) return;
 
-        tilemap.SetTile(position, bloodTile);
+        mapController.AddBlood(position);
     }
 }

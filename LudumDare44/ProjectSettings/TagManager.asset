@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tilemap
   - SFX
+  - TileSwapper
   layers:
   - Default
   - TransparentFX

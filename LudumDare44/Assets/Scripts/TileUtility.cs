@@ -5,6 +5,11 @@ using UnityEngine.Tilemaps;
 
 public class TileUtility
 {
+    public static bool IsBlood(TileBase tile)
+    {
+        return (tile.name == "Blood" || tile.name == "BloodEntryAnimated");
+    }
+
     public static bool CheckIfSpiked(TileBase tile, Vector3Int movementInt)
     {
         switch(tile.name){
