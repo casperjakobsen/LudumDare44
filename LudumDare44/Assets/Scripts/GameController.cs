@@ -9,9 +9,11 @@ public class GameController : MonoBehaviour
 {
     Tilemap tilemap;
 
-    [SerializeField] Counter counter;
+    [SerializeField] List<Counter> counters = new List<Counter>();
+    [SerializeField] Dictionary<Vector3Int, Counter> posToCounter = new Dictionary<Vector3Int, Counter>();
 
     [SerializeField] UnityEvent payEvent;
+    [SerializeField] UnityEvent payedUpEvent;
     [SerializeField] UnityEvent winEvent;
 
     [SerializeField] TileBase holeTile;
@@ -34,6 +36,11 @@ public class GameController : MonoBehaviour
     {
         tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
         tileSwapper = GameObject.FindGameObjectWithTag("TileSwapper").GetComponent<TileSwapper>();
+
+        foreach (Counter counter in counters)
+        {
+            posToCounter.Add(tilemap.WorldToCell(counter.transform.Find("Position").position), counter);
+        }
     }
 
     public void NextLevel()
@@ -82,14 +89,7 @@ public class GameController : MonoBehaviour
                 tileSwapper.addTileSwap(holeTile, Time.time + tileAnimationTime, destination);
 
                 payEvent.Invoke();
-
-                if (counter.Value() == 1)
-                {
-                    // Level Complete
-                    winEvent.Invoke();
-                    screenFader.SetBool("Fading", true);
-                }
-                if (counter.Value() > 0) counter.Decrement();
+                DecrementCounter(destination);
             }
         }
 
@@ -105,6 +105,26 @@ public class GameController : MonoBehaviour
         }
 
         tilemap.SetTile(origin + movementInt, null);
+    }
+
+    void DecrementCounter(Vector3Int position)
+    {
+        if (!posToCounter.ContainsKey(position)) return;
+        Counter counter = posToCounter[position];
+
+        if (counter.Value() == 1)
+        {
+            payedUpEvent.Invoke();
+            posToCounter.Remove(position);
+        }
+        if (counter.Value() > 0) counter.Decrement();
+
+        if (posToCounter.Count == 0)
+        {
+            // Level Complete
+            winEvent.Invoke();
+            screenFader.SetBool("Fading", true);
+        }
     }
 
     public void TryAddBlood(Vector3Int position)
