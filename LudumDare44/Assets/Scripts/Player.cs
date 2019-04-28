@@ -11,6 +11,9 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject bleedRightObj;
     [SerializeField] GameObject bleedBottomObj;
     [SerializeField] GameObject bleedLeftObj;
+
+    [SerializeField] bool canSpike = true;
+
     bool bleedTop;
     bool bleedRight;
     bool bleedBottom;
@@ -22,10 +25,14 @@ public class Player : MonoBehaviour
     [SerializeField] UnityEvent moveEvent;
     [SerializeField] UnityEvent hurtEvent;
 
+    Animator anim;
+
     void Start()
     {
         mapController = GameObject.FindGameObjectWithTag("GameController").GetComponent<MapController>();
         tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
+
+        anim = GetComponent<Animator>();
 
         bleedTopObj.SetActive(false);
         bleedRightObj.SetActive(false);
@@ -35,6 +42,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        anim.ResetTrigger("Moved");
+        anim.ResetTrigger("Spiked");
+
         Vector3 movement = Vector3.zero;
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -62,14 +72,21 @@ public class Player : MonoBehaviour
         Vector3Int movementInt = Vector3Int.RoundToInt(movement);
         TileBase destinationTile = tilemap.GetTile(originCellPos + movementInt);
 
+        anim.SetInteger("Horizontal", movementInt.x);
+        anim.SetInteger("Vertical", movementInt.y);
+
         if (mapController.Move(originCellPos, movementInt))
         {
+            anim.SetTrigger("Moved");
+  
             moveEvent.Invoke();
             transform.position += Vector3.Scale(tilemap.cellSize, movement);
             Bleed(originCellPos, movementInt);
         }
-        else if (TileUtility.CheckIfSpiked(destinationTile, movementInt))
+        else if (canSpike && TileUtility.CheckIfSpiked(destinationTile, movementInt))
         {
+            anim.SetTrigger("Spiked");
+
             hurtEvent.Invoke();
             HitSpike(movementInt);
             mapController.ApplyBlood(Vector3Int.RoundToInt(originCellPos + movementInt));
