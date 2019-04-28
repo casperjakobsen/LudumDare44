@@ -14,9 +14,12 @@ public class MapController : MonoBehaviour
     [SerializeField] UnityEvent payEvent;
     [SerializeField] UnityEvent winEvent;
 
+    [SerializeField] TileBase holeTile;
+    [SerializeField] TileBase holeWithBlood;
     [SerializeField] TileBase bloodTile;
     [SerializeField] TileBase bloodTileEntry;
-    [SerializeField] float bloodEntryTime;
+
+    [SerializeField] float tileAnimationTime;
 
     [SerializeField] TileBase bloodSpikeUp;
     [SerializeField] TileBase bloodSpikeRight;
@@ -38,7 +41,7 @@ public class MapController : MonoBehaviour
         while (true)
         {
             TileBase tile = tilemap.GetTile(examinePos);
-            if (tile == null || (bloodOnPath && tile.name == "Hole")){
+            if (tile == null || (bloodOnPath && TileUtility.IsHole(tile))){
                 break;
             }
             if (!TileUtility.IsBlood(tile)){
@@ -59,13 +62,18 @@ public class MapController : MonoBehaviour
     {
         Vector3Int examinePos = destination;
         TileBase destinationTile = tilemap.GetTile(examinePos);
-        if (destinationTile != null && destinationTile.name == "Hole")
+        if (destinationTile != null && TileUtility.IsHole(destinationTile))
         {
             examinePos -= movementInt;
             TileBase lastPushedTile = tilemap.GetTile(examinePos);
             if (lastPushedTile != null && TileUtility.IsBlood(lastPushedTile))
             {
                 tilemap.SetTile(examinePos, null);
+                tilemap.SetTile(destination, holeWithBlood);
+
+                tileSwapper.removeSwap(destination);
+                tileSwapper.addTileSwap(holeTile, Time.time + tileAnimationTime, destination);
+
                 payEvent.Invoke();
                 if (counter.Decrement() == 0)
                 {
@@ -93,7 +101,7 @@ public class MapController : MonoBehaviour
     public void AddBlood(Vector3Int position)
     {
         tilemap.SetTile(position, bloodTileEntry);
-        tileSwapper.addTileSwap(bloodTile, Time.time + bloodEntryTime, position);
+        tileSwapper.addTileSwap(bloodTile, Time.time + tileAnimationTime, position);
     }
 
     public void ApplyBloodToSpike(Vector3Int position)

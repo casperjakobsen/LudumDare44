@@ -17,8 +17,6 @@ public class TileSwapper : MonoBehaviour
 
     void Update()
     {
-        print(swaps.Count + " " +  positionToSwapInfo.Count + " " + Time.time);
-
         while (true)
         {
             if (swaps.Count == 0) return;

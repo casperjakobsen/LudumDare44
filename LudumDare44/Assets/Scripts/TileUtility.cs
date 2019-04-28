@@ -7,7 +7,12 @@ public class TileUtility
 {
     public static bool IsBlood(TileBase tile)
     {
-        return (tile.name == "Blood" || tile.name == "BloodEntryAnimated");
+        return (tile.name == "Blood" || tile.name == "BloodEntry");
+    }
+
+    public static bool IsHole(TileBase tile)
+    {
+        return (tile.name == "Hole" || tile.name == "HoleWithBlood");
     }
 
     public static bool CheckIfSpiked(TileBase tile, Vector3Int movementInt)
