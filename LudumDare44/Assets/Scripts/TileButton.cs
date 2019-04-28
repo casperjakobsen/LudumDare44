@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 public enum ButtonType
 {
-    Play, Exit, Restart, Back
+    Play, Exit, Restart, Back, Continue
 }
 
 public class TileButton : MonoBehaviour
@@ -24,6 +24,13 @@ public class TileButton : MonoBehaviour
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if(type == ButtonType.Continue)
+        {
+            if (!PlayerPrefs.HasKey("Progress") || PlayerPrefs.GetInt("Progress") == GameController.lastLevel) {
+                Destroy(gameObject);
+            }
+        }
     }
 
     void OnMouseEnter()
@@ -67,6 +74,11 @@ public class TileButton : MonoBehaviour
                     Action();
                 }
                 break;
+            case ButtonType.Continue:
+                if (Input.GetKeyDown(KeyCode.C)) {
+                    Action();
+                }
+                break;
         }
     }
 
@@ -86,6 +98,9 @@ public class TileButton : MonoBehaviour
                 break;
             case ButtonType.Back:
                 SceneManager.LoadScene(0);
+                break;
+            case ButtonType.Continue:
+                SceneManager.LoadScene(PlayerPrefs.GetInt("Progress"));
                 break;
         }
     }

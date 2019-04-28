@@ -32,6 +32,8 @@ public class GameController : MonoBehaviour
 
     TileSwapper tileSwapper;
 
+    public static int lastLevel = 4;
+
     void Start()
     {
         tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
@@ -121,6 +123,12 @@ public class GameController : MonoBehaviour
 
         if (posToCounter.Count == 0)
         {
+            int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+            if (currentLevelIndex < lastLevel)
+            {
+                PlayerPrefs.SetInt("Progress", currentLevelIndex + 1);
+            }
+
             // Level Complete
             winEvent.Invoke();
             screenFader.SetBool("Fading", true);
