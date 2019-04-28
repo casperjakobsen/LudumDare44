@@ -41,6 +41,38 @@ public class TileButton : MonoBehaviour
     {
         clickedEvent.Invoke();
         spriteRenderer.sprite = downSprite;
+        Action();
+    }
+
+    private void Update()
+    {
+        switch (type)
+        {
+            case ButtonType.Play:
+                if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
+                    Action();
+                }
+                break;
+            case ButtonType.Exit:
+                if (Input.GetKeyDown(KeyCode.Escape)) {
+                    Action();
+                }
+                break;
+            case ButtonType.Restart:
+                if (Input.GetKeyDown(KeyCode.R)) {
+                    Action();
+                }
+                break;
+            case ButtonType.Back:
+                if (Input.GetKeyDown(KeyCode.B) || Input.GetKeyDown(KeyCode.Backspace)) {
+                    Action();
+                }
+                break;
+        }
+    }
+
+    public void Action()
+    {
         switch (type)
         {
             case ButtonType.Play:
