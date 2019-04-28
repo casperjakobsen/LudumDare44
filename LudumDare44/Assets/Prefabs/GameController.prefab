@@ -401,3 +401,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  bloodSpikeUp: {fileID: 11400000, guid: 50789e5fa3291f349b1cb19e99b3ed0a, type: 2}
+  bloodSpikeRight: {fileID: 11400000, guid: 7a2c579547a0c304595efffcb882779f, type: 2}
+  bloodSpikeDown: {fileID: 11400000, guid: e23a663daa850844c9fb2694241f48b4, type: 2}
+  bloodSpikeLeft: {fileID: 11400000, guid: 0bf6b2e5fbda672439e52b31a7c91e69, type: 2}

@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
         {
             hurtEvent.Invoke();
             HitSpike(movementInt);
+            mapController.ApplyBlood(Vector3Int.RoundToInt(originCellPos + movementInt));
         }
 
     }

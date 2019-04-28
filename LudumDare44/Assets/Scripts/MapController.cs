@@ -14,6 +14,11 @@ public class MapController : MonoBehaviour
     [SerializeField] UnityEvent payEvent;
     [SerializeField] UnityEvent winEvent;
 
+    [SerializeField] TileBase bloodSpikeUp;
+    [SerializeField] TileBase bloodSpikeRight;
+    [SerializeField] TileBase bloodSpikeDown;
+    [SerializeField] TileBase bloodSpikeLeft;
+
     void Start()
     {
         tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
@@ -73,5 +78,27 @@ public class MapController : MonoBehaviour
         }
 
         tilemap.SetTile(origin + movementInt, null);
+    }
+
+    public void ApplyBlood(Vector3Int position)
+    {
+        print(position);
+        TileBase examinedTile = tilemap.GetTile(position);
+        if (examinedTile == null) return;
+
+        switch(examinedTile.name){
+            case "SpikeUp":
+                tilemap.SetTile(position, bloodSpikeUp);
+                break;
+            case "SpikeRight":
+                tilemap.SetTile(position, bloodSpikeRight);
+                break;
+            case "SpikeDown":
+                tilemap.SetTile(position, bloodSpikeDown);
+                break;
+            case "SpikeLeft":
+                tilemap.SetTile(position, bloodSpikeLeft);
+                break;
+        }
     }
 }
