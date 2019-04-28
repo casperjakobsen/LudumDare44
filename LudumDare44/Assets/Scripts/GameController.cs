@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
-public class MapController : MonoBehaviour
+public class GameController : MonoBehaviour
 {
     Tilemap tilemap;
 
@@ -26,12 +26,19 @@ public class MapController : MonoBehaviour
     [SerializeField] TileBase bloodSpikeDown;
     [SerializeField] TileBase bloodSpikeLeft;
 
+    [SerializeField] Animator screenFader;
+
     TileSwapper tileSwapper;
 
     void Start()
     {
         tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
         tileSwapper = GameObject.FindGameObjectWithTag("TileSwapper").GetComponent<TileSwapper>();
+    }
+
+    public void NextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public bool Move(Vector3Int origin, Vector3Int movementInt)
@@ -75,12 +82,14 @@ public class MapController : MonoBehaviour
                 tileSwapper.addTileSwap(holeTile, Time.time + tileAnimationTime, destination);
 
                 payEvent.Invoke();
-                if (counter.Decrement() == 0)
+
+                if (counter.Value() == 1)
                 {
+                    // Level Complete
                     winEvent.Invoke();
-                    // WIN Level
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                    screenFader.SetBool("Fading", true);
                 }
+                if (counter.Value() > 0) counter.Decrement();
             }
         }
 

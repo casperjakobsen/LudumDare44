@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     bool bleedBottom;
     bool bleedLeft;
 
-    MapController mapController;
+    GameController gameController;
     Tilemap tilemap;
 
     [SerializeField] UnityEvent moveEvent;
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        mapController = GameObject.FindGameObjectWithTag("GameController").GetComponent<MapController>();
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
         tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
 
         anim = GetComponent<Animator>();
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
         anim.SetInteger("Horizontal", movementInt.x);
         anim.SetInteger("Vertical", movementInt.y);
 
-        if (mapController.Move(originCellPos, movementInt))
+        if (gameController.Move(originCellPos, movementInt))
         {
             anim.SetTrigger("Moved");
   
@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
 
             hurtEvent.Invoke();
             HitSpike(movementInt);
-            mapController.ApplyBloodToSpike(Vector3Int.RoundToInt(originCellPos + movementInt));
+            gameController.ApplyBloodToSpike(Vector3Int.RoundToInt(originCellPos + movementInt));
         }
 
     }
@@ -111,9 +111,9 @@ public class Player : MonoBehaviour
     {
         Vector3Int position = tilemap.WorldToCell(transform.position);
 
-        if (bleedTop) {mapController.TryAddBlood(position + Vector3Int.up);}
-        if (bleedRight) {mapController.TryAddBlood(position + Vector3Int.right);}
-        if (bleedBottom) {mapController.TryAddBlood(position + Vector3Int.down);}
-        if (bleedLeft) {mapController.TryAddBlood(position + Vector3Int.left);}
+        if (bleedTop) {gameController.TryAddBlood(position + Vector3Int.up);}
+        if (bleedRight) {gameController.TryAddBlood(position + Vector3Int.right);}
+        if (bleedBottom) {gameController.TryAddBlood(position + Vector3Int.down);}
+        if (bleedLeft) {gameController.TryAddBlood(position + Vector3Int.left);}
     }
 }

@@ -39,7 +39,6 @@ public class TileButton : MonoBehaviour
 
     private void OnMouseDown()
     {
-        clickedEvent.Invoke();
         spriteRenderer.sprite = downSprite;
         Action();
     }
@@ -73,10 +72,11 @@ public class TileButton : MonoBehaviour
 
     public void Action()
     {
+        clickedEvent.Invoke();
         switch (type)
         {
             case ButtonType.Play:
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                // Removed to use screenfading
                 break;
             case ButtonType.Exit:
                 Application.Quit();

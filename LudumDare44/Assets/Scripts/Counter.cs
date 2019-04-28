@@ -13,6 +13,11 @@ public class Counter : MonoBehaviour
         textMesh = GetComponentInChildren<TextMeshProUGUI>();
         textMesh.text = count.ToString();
     }
+
+    public int Value()
+    {
+        return count;
+    }
        
     public int Decrement()
     {
